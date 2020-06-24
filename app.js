@@ -1,6 +1,6 @@
 const bookContainer = document.querySelector("#book-container");
 
-const books = [
+let books = [
   { author: "J.K. Rowlings", title: "Harry Potter", pages: 500, read: true },
   { author: "Tolkien", title: "Lord of the Rings", pages: 1000, read: false },
 ]; //later this will initialize with contents of local storage
@@ -22,13 +22,13 @@ getBooks();
 
 //Page loads, loop gets each book and passes obj to render(),
 function getBooks() {
+  bookContainer.innerHTML = "";
   books.forEach((book, index) => {
     render(book, index);
   });
 }
 
 //render() will create the html using the props of each object and add the book card to a container elem
-
 function render(book, index) {
   const div = document.createElement("div");
   div.classList.add("book");
@@ -38,6 +38,7 @@ function render(book, index) {
 
   bookContainer.appendChild(div);
 }
+
 //helper to create html for the book div,
 function createHTML(book) {
   const isRead = book.read
@@ -45,25 +46,32 @@ function createHTML(book) {
     : "you have not read this book yet.";
 
   return `<div class="book-btns">
-    <button class="delete">X</button>
-    <button class="readBtn">read</button>
+    <button class="delete" id="delete">X</button>
+    <button class="isRead" id="isRead">read</button>
    </div>
   <p class="book-info">
     ${book.title} by ${book.author}, ${book.pages} pages long, ${isRead}
   </p>`;
 }
 
-//-each card elem will need data attribute w index of its book obj.
 //-each card will have delete btn that will remove obj from array, resave, and render again
-//
+function deleteBook(index) {
+  books = books.filter((_, bookIndex) => parseInt(index) !== bookIndex);
+  getBooks();
+}
 
-//
-
-//
+function changeReadStatus(index) {}
 
 //eventlisteners
 bookContainer.addEventListener("click", (e) => {
   if (e.target.tagName === "BUTTON") {
     const index = e.target.parentNode.parentNode.dataset.index;
+    const id = e.target.id;
+
+    if (id === "delete") {
+      deleteBook(index);
+    } else {
+      changeReadStatus(index);
+    }
   }
 });
