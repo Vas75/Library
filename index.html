@@ -4,8 +4,36 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Library</title>
+    <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <h1>The Little Library</h1>
+    <div class="wrapper">
+      <div class="add-book-btn">
+        <button class="add-btn" id="add-btn">Add Book</button>
+      </div>
+      <div class="book-container" id="book-container">
+        <!--book objs go here-->
+      </div>
+    </div>
+    <!--form display none until switched on, then fullscreen modal-->
+    <!-- <form id="add-book">
+      <label for="title">title<input type="text" id="title" /></label>
+      <label for="author">author<input type="text" id="author" /></label>
+      <label for="numOfPages"
+        >number of pages<input type="number" id="numOfPages"
+      /></label>
+      <fieldset>
+        <legend>Have you read this yet?</legend>
+        <label for="read"
+          >read<input type="radio" name="readOrNot" id="read"
+        /></label>
+        <label for="unread"
+          >unread<input type="radio" name="readOrNot" id="unread"
+        /></label>
+        <button type="submit">submit</button>
+      </fieldset>
+    </form> -->
     <script src="app.js"></script>
   </body>
 </html>
