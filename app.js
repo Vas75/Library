@@ -15,12 +15,12 @@ getBooks();
 // }
 
 // Book.prototype.info = function () {
-//   const readOrNot = this.finished ? "already read" : "not read yet";
+//   const mssgToUser = this.finished ? "already read" : "not read yet";
 
-//   return `${this.title} by ${this.author}, ${this.pages} pages, ${readOrNot}.`;
+//   return `${this.title} by ${this.author}, ${this.pages} pages, ${mssgToUser}.`;
 // };
 
-//Page loads, loop gets each book and passes obj to render(),
+//Page loads, loop gets each book and passes obj/ind to render(),
 function getBooks() {
   bookContainer.innerHTML = "";
   books.forEach((book, index) => {
@@ -36,36 +36,56 @@ function render(book, index) {
 
   div.innerHTML = createHTML(book);
 
+  //needed to add styling to btn depending of read or not
+  const isReadBtn = div.querySelector("#isRead");
+
+  if (book.read) {
+    isReadBtn.classList.add("greenBtn");
+  } else {
+    isReadBtn.classList.add("redBtn");
+  }
+
   bookContainer.appendChild(div);
 }
 
 //helper to create html for the book div,
 function createHTML(book) {
-  const isRead = book.read
+  const read = book.read;
+  const mssgToUser = read
     ? "you have read this book."
     : "you have not read this book yet.";
+  const readOrUnread = read ? "read" : "unread";
 
-  return `<div class="book-btns">
-    <button class="delete" id="delete">X</button>
-    <button class="isRead" id="isRead">read</button>
-   </div>
+  return `
+  <button class="delete" id="delete">X</button>
   <p class="book-info">
-    ${book.title} by ${book.author}, ${book.pages} pages long, ${isRead}
-  </p>`;
+    ${book.title} by ${book.author}, ${book.pages} pages long, ${mssgToUser}
+  </p>
+  <button class="isRead" id="isRead">${readOrUnread}</button>
+  `;
 }
 
-//-each card will have delete btn that will remove obj from array, resave, and render again
+//each card will have delete btn that will remove obj from array, resave, and render again
 function deleteBook(index) {
   books = books.filter((_, bookIndex) => parseInt(index) !== bookIndex);
   getBooks();
 }
 
-function changeReadStatus(index) {}
+function changeReadStatus(index) {
+  books = books.map((book, bookIndex) => {
+    if (parseInt(index) === bookIndex) {
+      book.read = book.read ? false : true;
+      return book;
+    }
+    return book;
+  });
+  getBooks();
+}
 
 //eventlisteners
 bookContainer.addEventListener("click", (e) => {
   if (e.target.tagName === "BUTTON") {
-    const index = e.target.parentNode.parentNode.dataset.index;
+    const index = e.target.parentNode.dataset.index;
     const id = e.target.id;
 
     if (id === "delete") {
