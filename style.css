@@ -35,6 +35,9 @@ img {
   height: auto;
 }
 /*end reset*/
+body {
+  background-color: lightgray;
+}
 
 h1 {
   font-size: 3rem;
@@ -64,14 +67,33 @@ h1 {
   padding: 10px 15px;
   margin: 10px 0;
   background-color: #3d7e9a;
+  box-shadow: 5px 5px 5px rgba(75, 75, 75, 0.7);
 }
 
 .book-info {
   font-size: 1.2rem;
 }
 
-form {
+.form-modal {
   display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(40, 40, 40, 0.8);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 50vw;
+  height: 50vh;
+  margin: auto;
+  border-radius: 25px;
+  background-color: #3d7e9a;
 }
 
 button {
@@ -79,22 +101,30 @@ button {
   font-size: 1.1rem;
 }
 
-button.isRead,
-button.delete {
+button:hover {
+  cursor: pointer;
+}
+
+button:active {
+  transform: scale(0.9);
+}
+
+button.isRead {
   padding: 5px;
+  margin-left: 7px;
   outline: none;
   border: none;
   border-radius: 5px;
 }
 
-button.delete {
+button.delete,
+button.close-form {
   color: red;
   font-weight: bold;
   margin-right: 7px;
-}
-
-button.isRead {
-  margin-left: 7px;
+  outline: none;
+  border: 1px solid red;
+  border-radius: 5px;
 }
 
 button.greenBtn {

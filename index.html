@@ -19,24 +19,42 @@
         <!--book objs go here-->
       </div>
     </div>
+
     <!--form display none until switched on, then fullscreen modal, should i just add this in js?-->
-    <!-- <form id="add-book">
-      <label for="title">title<input type="text" id="title" /></label>
-      <label for="author">author<input type="text" id="author" /></label>
-      <label for="numOfPages"
-        >number of pages<input type="number" id="numOfPages"
-      /></label>
-      <fieldset>
-        <legend>Have you read this yet?</legend>
-        <label for="read"
-          >read<input type="radio" name="readOrNot" id="read"
+    <div class="form-modal" id="form-modal">
+      <form id="add-book">
+        <button type="button" class="close-form" id="close-form">x</button>
+        <label for="title"
+          >title<input type="text" id="title" required
         /></label>
-        <label for="unread"
-          >unread<input type="radio" name="readOrNot" id="unread"
+        <label for="author"
+          >author<input type="text" id="author" required
         /></label>
+        <label for="numOfPages"
+          >number of pages<input type="number" id="numOfPages" required
+        /></label>
+        <fieldset>
+          <legend>Have you read this yet?</legend>
+          <label for="read"
+            >read<input
+              type="radio"
+              name="readOrNot"
+              id="read"
+              value="read"
+              checked
+          /></label>
+          <label for="unread"
+            >unread<input
+              type="radio"
+              name="readOrNot"
+              id="unread"
+              value="unread"
+          /></label>
+        </fieldset>
         <button type="submit">submit</button>
-      </fieldset>
-    </form> -->
+      </form>
+    </div>
+
     <script src="app.js"></script>
   </body>
 </html>
