@@ -4,10 +4,6 @@ const formModal = document.querySelector("#form-modal");
 const form = document.querySelector("form");
 const closeFormBtn = document.querySelector("#close-form");
 
-let books = []; //later this will initialize with contents of local storage
-
-getBooks();
-
 function Book(title, author, pages, finished) {
   this.author = author;
   this.title = title;
@@ -21,21 +17,15 @@ Book.prototype.info = function () {
   return `${this.title} by ${this.author}, ${this.pages} pages, ${mssgToUser}.`;
 };
 
-//iife to create/add dummy books for app on page load
-(function addPlaceholderBooks() {
-  const harryPotter = new Book(
-    "Harry Potter and the Philosopher's Stone",
-    "J.K. Rowling",
-    336,
-    true
-  );
-  const lotor = new Book(
-    "The Lord of the Rings",
-    "J.R.R. Tolkien",
-    1178,
-    false
-  );
-  [harryPotter, lotor].forEach((book) => (books = [...books, book]));
+//books will initialize with array from local storage or empty array
+let books;
+
+//iife to check local storage for book data, if present initialize let books with stored books arr, else empty array.
+(function getFromLocalStorage() {
+  const storedBooksArr = JSON.parse(localStorage.getItem("books"));
+  const booksWithProto = fixProtoChain(storedBooksArr);
+
+  books = booksWithProto.length > 0 ? booksWithProto : [];
   getBooks();
 })();
 
@@ -66,16 +56,12 @@ function render(book, index) {
 
 //helper to create html for the book div, use prototype function below?
 function createHTML(book) {
-  const read = book.finished;
-  const mssgToUser = read
-    ? "you have read this book."
-    : "you have not read this book yet.";
-  const readOrUnread = read ? "read" : "unread";
+  const readOrUnread = book.finished ? "read" : "unread";
 
   return `
   <button class="delete" id="delete">x</button>
   <p class="book-info">
-    ${book.title} by ${book.author}, ${book.pages} pages long, ${mssgToUser}
+    ${book.info()} 
   </p>
   <button class="isRead" id="isRead">${readOrUnread}</button>
   `;
@@ -84,6 +70,7 @@ function createHTML(book) {
 //each card will have delete btn that will remove obj from array, resave, and render again
 function deleteBook(index) {
   books = books.filter((_, bookIndex) => parseInt(index) !== bookIndex);
+  saveToLocalStorage();
   getBooks();
 }
 
@@ -95,6 +82,7 @@ function changeReadStatus(index) {
     }
     return book;
   });
+  saveToLocalStorage();
   getBooks();
 }
 
@@ -119,11 +107,22 @@ function extractFormData(form) {
 function addToBooksArr(dataArr) {
   const book = new Book(...dataArr);
   books = [...books, book];
+  saveToLocalStorage();
   getBooks();
 }
 
 function closeForm() {
   formModal.style.display = "none";
+}
+
+function saveToLocalStorage() {
+  localStorage.setItem("books", JSON.stringify(books));
+}
+
+function fixProtoChain(booksArr) {
+  return booksArr.map((book) => {
+    return Object.setPrototypeOf(book, Object.create(Book.prototype));
+  });
 }
 
 //eventlisteners
@@ -145,14 +144,15 @@ addBookBtn.addEventListener("click", () => {
 });
 
 closeFormBtn.addEventListener("click", () => {
-  form.reset();
   closeForm();
+  form.reset();
 });
 
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const dataArr = extractFormData(e.target);
+
   addToBooksArr(dataArr);
-  e.target.reset();
   closeForm();
+  e.target.reset();
 });
