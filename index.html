@@ -22,8 +22,11 @@
 
     <!--form display none until switched on, then fullscreen modal, should i just add this in js?-->
     <div class="form-modal" id="form-modal">
-      <form id="add-book">
-        <button type="button" class="close-form" id="close-form">x</button>
+      <form id="add-book" class="form">
+        <div class="close-form-cont">
+          <button type="button" class="close-form" id="close-form">x</button>
+        </div>
+
         <label for="title"
           >title<input type="text" id="title" required
         /></label>
@@ -33,25 +36,29 @@
         <label for="numOfPages"
           >number of pages<input type="number" id="numOfPages" required
         /></label>
-        <fieldset>
+        <fieldset class="fieldset">
           <legend>Have you read this yet?</legend>
-          <label for="read"
-            >read<input
-              type="radio"
-              name="readOrNot"
-              id="read"
-              value="read"
-              checked
-          /></label>
-          <label for="unread"
-            >unread<input
-              type="radio"
-              name="readOrNot"
-              id="unread"
-              value="unread"
-          /></label>
+          <div class="radio-btn-cont">
+            <label for="read"
+              >read<input
+                type="radio"
+                name="readOrNot"
+                id="read"
+                value="read"
+                checked
+            /></label>
+            <label for="unread"
+              >unread<input
+                type="radio"
+                name="readOrNot"
+                id="unread"
+                value="unread"
+            /></label>
+          </div>
         </fieldset>
-        <button type="submit">submit</button>
+        <div class="submit-form-cont">
+          <button type="submit">SUBMIT</button>
+        </div>
       </form>
     </div>
 

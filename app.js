@@ -14,27 +14,27 @@ function Book(title, author, pages, finished) {
 Book.prototype.info = function () {
   const mssgToUser = this.finished ? "already read" : "not read yet";
 
-  return `${this.title} by ${this.author}, ${this.pages} pages, ${mssgToUser}.`;
+  return `<span class="book-title">${this.title}</span> by ${this.author}, ${this.pages} pages, ${mssgToUser}.`;
 };
 
 //books will initialize with array from local storage or empty array
 let books;
-
 //iife to check local storage for book data, if present initialize let books with stored books arr, else empty array.
 (function getFromLocalStorage() {
-  const storedBooksArr = JSON.parse(localStorage.getItem("books"));
-  const booksWithProto = fixProtoChain(storedBooksArr);
+  const stored = JSON.parse(localStorage.getItem("books"));
 
-  books = booksWithProto.length > 0 ? booksWithProto : [];
+  if (stored && stored.length > 0) {
+    books = fixProtoChain(stored);
+  } else {
+    books = [];
+  }
   getBooks();
 })();
 
-//Page loads, loop gets each book and passes obj/ind to render(),
+//Page loads, loop gets each book and passes obj/idx to render(),
 function getBooks() {
   bookContainer.innerHTML = "";
-  books.forEach((book, index) => {
-    render(book, index);
-  });
+  books.forEach((book, index) => render(book, index));
 }
 
 //render() will create the html using the props of each object and add the book card to a container elem
@@ -45,16 +45,14 @@ function render(book, index) {
 
   div.innerHTML = createHTML(book);
 
-  //needed to add styling to btn depending of read or not
+  //needed to add styling to btn depending of read or not, add greenBtn/redBtn class to button
   const isReadBtn = div.querySelector("#isRead");
-
-  //add greenBtn or redBtn class to button
   isReadBtn.classList.add(addBtnClass(book));
 
   bookContainer.appendChild(div);
 }
 
-//helper to create html for the book div, use prototype function below?
+//helper to create html for the book div
 function createHTML(book) {
   const readOrUnread = book.finished ? "read" : "unread";
 
@@ -90,13 +88,12 @@ function addBtnClass(book) {
   return book.finished ? "greenBtn" : "redBtn";
 }
 
-//okay, can used checked to get selected input, what about other inputs, reduce/map all with condtions?
 function extractFormData(form) {
   return [...form.querySelectorAll("input")]
     .filter((input) => input.type !== "radio" || input.checked)
     .map((input) => {
       if (input.type === "radio") {
-        return input.value === "read" ? true : false;
+        return input.value === "read";
       } else if (input.type === "number") {
         return parseInt(input.value);
       }
@@ -120,9 +117,9 @@ function saveToLocalStorage() {
 }
 
 function fixProtoChain(booksArr) {
-  return booksArr.map((book) => {
-    return Object.setPrototypeOf(book, Object.create(Book.prototype));
-  });
+  return booksArr.map((book) =>
+    Object.setPrototypeOf(book, Object.create(Book.prototype))
+  );
 }
 
 //eventlisteners
@@ -139,9 +136,7 @@ bookContainer.addEventListener("click", (e) => {
   }
 });
 
-addBookBtn.addEventListener("click", () => {
-  formModal.style.display = "flex";
-});
+addBookBtn.addEventListener("click", () => (formModal.style.display = "flex"));
 
 closeFormBtn.addEventListener("click", () => {
   closeForm();
@@ -153,6 +148,12 @@ form.addEventListener("submit", (e) => {
   const dataArr = extractFormData(e.target);
 
   addToBooksArr(dataArr);
-  closeForm();
   e.target.reset();
+});
+
+formModal.addEventListener("click", (e) => {
+  if (e.target.id === "form-modal") {
+    closeForm();
+    form.reset();
+  }
 });

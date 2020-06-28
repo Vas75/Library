@@ -37,10 +37,12 @@ img {
 /*end reset*/
 body {
   background-color: lightgray;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 4rem;
+  font-weight: 550;
   display: flex;
   justify-content: center;
   margin: 10px 0;
@@ -71,29 +73,75 @@ h1 {
 }
 
 .book-info {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
+}
+
+.book-title {
+  font-style: italic;
+  font-weight: bold;
 }
 
 .form-modal {
   display: none;
   position: fixed;
+  z-index: 1;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
+  overflow: auto;
   background-color: rgba(40, 40, 40, 0.8);
 }
 
-form {
+.form {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  justify-content: space-between;
+  align-items: space-around;
+  font-size: 1.3rem;
   width: 50vw;
-  height: 50vh;
   margin: auto;
+  padding: 15px;
   border-radius: 25px;
   background-color: #3d7e9a;
+  animation-name: modalopening;
+  animation-duration: 0.8s;
+}
+
+.form > label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+label > input {
+  padding: 5px;
+}
+
+.radio-btn-cont {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.close-form-cont {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submit-form-cont {
+  display: flex;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.submit-form-cont > button {
+  width: 100%;
+  padding: 5px;
+}
+
+.submit-form-cont > button:active {
+  transform: scale(0.98);
 }
 
 button {
@@ -134,4 +182,29 @@ button.greenBtn {
 button.redBtn {
   color: red;
   border: 1px solid red;
+}
+
+@keyframes modalopening {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .wrapper {
+    width: 100%;
+  }
+
+  .book-info {
+    font-size: 1.1rem;
+  }
+
+  h1 {
+    font-size: 2rem;
+    flex-direction: column;
+    align-items: center;
+  }
 }
