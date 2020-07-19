@@ -18,19 +18,6 @@ class Book {
   }
 }
 
-// function Book(title, author, pages, finished) {
-//   this.author = author;
-//   this.title = title;
-//   this.pages = pages;
-//   this.finished = finished;
-// }
-
-// Book.prototype.info = function () {
-//   const mssgToUser = this.finished ? "already read" : "not read yet";
-
-//   return `<span class="book-title">${this.title}</span> by ${this.author}, ${this.pages} pages, ${mssgToUser}.`;
-// };
-
 //books will initialize with array from local storage or empty array
 let books;
 //iife to check local storage for book data, if present initialize let books with stored books arr, else empty array.
