@@ -4,18 +4,32 @@ const formModal = document.querySelector("#form-modal");
 const form = document.querySelector("form");
 const closeFormBtn = document.querySelector("#close-form");
 
-function Book(title, author, pages, finished) {
-  this.author = author;
-  this.title = title;
-  this.pages = pages;
-  this.finished = finished;
+class Book {
+  constructor(title, author, pages, finished) {
+    this.author = author;
+    this.title = title;
+    this.pages = pages;
+    this.finished = finished;
+  }
+
+  info() {
+    const mssgToUser = this.finished ? "already read" : "not read yet";
+    return `<span class="book-title">${this.title}</span> by ${this.author}, ${this.pages} pages, ${mssgToUser}.`;
+  }
 }
 
-Book.prototype.info = function () {
-  const mssgToUser = this.finished ? "already read" : "not read yet";
+// function Book(title, author, pages, finished) {
+//   this.author = author;
+//   this.title = title;
+//   this.pages = pages;
+//   this.finished = finished;
+// }
 
-  return `<span class="book-title">${this.title}</span> by ${this.author}, ${this.pages} pages, ${mssgToUser}.`;
-};
+// Book.prototype.info = function () {
+//   const mssgToUser = this.finished ? "already read" : "not read yet";
+
+//   return `<span class="book-title">${this.title}</span> by ${this.author}, ${this.pages} pages, ${mssgToUser}.`;
+// };
 
 //books will initialize with array from local storage or empty array
 let books;
