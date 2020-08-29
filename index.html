@@ -28,13 +28,13 @@
         </div>
 
         <label for="title"
-          >title<input type="text" id="title" required
+          >title<input type="text" id="title" minlength="1" required
         /></label>
         <label for="author"
-          >author<input type="text" id="author" required
+          >author<input type="text" id="author" minlength="1" required
         /></label>
         <label for="numOfPages"
-          >number of pages<input type="number" id="numOfPages" required
+          >number of pages<input type="number" id="numOfPages" min="1" required
         /></label>
         <fieldset class="fieldset">
           <legend>Have you read this yet?</legend>
@@ -45,7 +45,7 @@
                 name="readOrNot"
                 id="read"
                 value="read"
-                checked
+                required
             /></label>
             <label for="unread"
               >unread<input
@@ -53,6 +53,7 @@
                 name="readOrNot"
                 id="unread"
                 value="unread"
+                required
             /></label>
           </div>
         </fieldset>
